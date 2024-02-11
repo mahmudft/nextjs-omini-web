@@ -45,7 +45,7 @@ const SignInForm = () => {
 
       }}
     >
-      {() => (
+      {({isSubmitting}) => (
         <Form className={"w-[500px]  flex flex-col gap-4"}>
           <h1 className={"text-3xl  font-extrabold"}>Log in and start messaging</h1>
           <h2>
@@ -60,7 +60,7 @@ const SignInForm = () => {
             <ErrorView message={message} />
           )}
 
-          <Button type={"submit"} color={"primary"}>
+          <Button type={"submit"} color={"primary"} isLoading={isSubmitting}>
             Log in
           </Button>
         </Form>

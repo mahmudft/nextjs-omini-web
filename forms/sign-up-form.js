@@ -46,14 +46,14 @@ const SignUpForm = () => {
 
       }}
     >
-      {() => (
+      {({isSubmitting}) => (
         <Form className={"w-[500px]  flex flex-col gap-4"}>
           <h1 className={"text-3xl  font-extrabold"}>Log in and start messaging</h1>
           <h2>
-            Don&apos;t have an account? <Link href={"/signup"}>Sign up</Link>{" "}
+            Have an account? <Link href={"/login"}>Login</Link>{" "}
           </h2>
 
-          <TextInput name={"email"} label={"Name"} />
+          <TextInput name={"name"} label={"Name"} />
 
           <TextInput name={"email"} label={"Email"} />
 
@@ -63,8 +63,8 @@ const SignUpForm = () => {
             <ErrorView message={message} />
           )}
 
-          <Button type={"submit"} color={"primary"}>
-            Log in
+          <Button type={"submit"} color={"primary"} isLoading={isSubmitting}>
+            Sign up
           </Button>
         </Form>
       )}

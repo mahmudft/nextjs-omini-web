@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import { cookies } from 'next/headers'
 
 export async function middleware(request: NextRequest) {
     // options.withCredentials = true;
@@ -9,17 +9,23 @@ export async function middleware(request: NextRequest) {
     
     try {
         // // @ts-ignore
-        // const token = request.cookies.authToken;
-        // console.log(token);
+        // const token = request.cookies;
+        
+        const store = cookies()
+        console.log("--------------------------------------")
+        let data = (store.get("authToken")?.value);
+        console.log(data);
+        console.log("--------------------------------------")
+        
         // const cookie = `authToken=${token.value}`;
         const response = await fetch('http://localhost:7089/me', {
             credentials: 'same-origin',
             // @ts-ignore
             withCredentials: true,
             method:"POST",
-            // headers:{
-            //     "Cookie":cookie
-            // }
+            headers:{
+                "Cookie": `authToken=${data}`
+            }
         })
         if (public_urls.includes(request.nextUrl.pathname)) {
             return NextResponse.redirect('/chat')
