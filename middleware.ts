@@ -16,7 +16,6 @@ export async function middleware(request: NextRequest) {
         let data = (store.get("authToken")?.value);
         console.log(data);
         console.log("--------------------------------------")
-        
         // const cookie = `authToken=${token.value}`;
         const response = await fetch('http://localhost:7089/me', {
             credentials: 'same-origin',

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import NavbarItem from "./navbar-item.jsx"
 
 
-export default function SideBar() {
+export default function SideBar({chats}) {
     const router = useRouter();
 
     async function handleLogOut() {
@@ -25,10 +25,8 @@ export default function SideBar() {
     return (
         <aside className="w-full h-full flex flex-col items-center justify-between gap-2">
             <div className="flex h-full flex-col items-center gap-1">
-                <NavbarItem url={"/chat/1"} title={"Chat 1"} />
-                <NavbarItem url={"/chat/2"} title={"Chat 2"} />
-                <NavbarItem url={"/chat/3"} title={"Chat 3"} />
-                <NavbarItem url={"/chat/4"} title={"Chat 4"} />
+                {chats.map(el => <NavbarItem key={el.id} url={`chat/${el.id}/`} title={el.name} />
+                )}
             </div>
 
             <Button size="sm" color="danger" onClick={handleLogOut}>

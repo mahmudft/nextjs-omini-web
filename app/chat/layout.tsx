@@ -10,6 +10,7 @@ export const socket = io('http://localhost:7089', {
 });
 export default function ChatNavbar({ children }: { children: ReactNode }) {
     const [users, setUsers] = useState([])
+    const [chats, setChats] = useState([])
 
     useEffect(() => {
         socket.connect()
@@ -22,9 +23,20 @@ export default function ChatNavbar({ children }: { children: ReactNode }) {
 
 
     const handleSearch = async (event: SyntheticEvent) => {
-        const res = await fetch(`http://localhost:7089/search?name=${event.target?.value}`)
+        const res = await fetch(`http://localhost:7089/search?name=${event.target?.value}`, {
+            headers: {
+                "Content-Type": "application/json"
+              },
+              credentials: 'include',
+              withCredentials: true,
+        })
         const data = await res.json()
         setUsers(data)
+    }
+
+    const handleChat = (chat) => {
+        setChats((prev) => ([...prev, chat]))
+        setUsers([])
     }
 
 
@@ -43,13 +55,13 @@ export default function ChatNavbar({ children }: { children: ReactNode }) {
                     {/* <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
                 </div>
                 <div>
-                   {users.map((person, index) => {
+                   {users?.map((person, index) => {
                     return (
                         <ul key={person?.id} role="list" className="p-6 divide-y divide-slate-200">
 
 
-                            <li className="flex py-4 first:pt-0 last:pb-0">
-                                 <img className="h-10 w-10 rounded-full" src="https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL2xvc3RodW1hbnMxLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODI4fX19" alt="" />
+                            <li className="flex py-4 first:pt-0 last:pb-0" onClick={() => handleChat(person)}>
+                                 <img className="h-8 w-10 rounded-full" src="https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL2xvc3RodW1hbnMxLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6ODI4fX19" alt="" />
                                 <div className="ml-3 overflow-hidden">
                                     <p className="text-sm font-medium text-slate-900">{person?.name}</p>
                                     <p className="text-sm text-slate-500 truncate">{person?.email}</p>
@@ -62,7 +74,7 @@ export default function ChatNavbar({ children }: { children: ReactNode }) {
                 </div>
             </form>
             <div className="w-full h-full grid grid-cols-[80px,1fr] gap-4 py-3">
-                <SideBar />
+                <SideBar chats={chats}/>
                 <div>
                     {children}
                 </div>

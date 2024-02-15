@@ -2,6 +2,6 @@
 
 export default async function Chat(){
     return (
-        <div>p</div>
+        <div>Select Chat to start</div>
     )
 }

@@ -1,0 +1,3 @@
+https://github.com/mahmudft/nextjs-omini-web
+
+chat sehifesin düzeltmek
